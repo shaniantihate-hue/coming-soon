@@ -1,5 +1,7 @@
 # Zaiveriq Labs — Coming Soon
 
-Buildless, self-contained static website. Serve `dist/` with any static web server. Includes local Three.js, supplied Clash Grotesk and Satoshi fonts, and original supplied logo artwork.
+A static single-screen launch page with supplied Clash Grotesk and Satoshi fonts, brand colors, and logo. Serve dist/ with any HTTP server.
 
-Interactions: drag the 3D sculpture, energize its lighting and orbital motion, pause/resume animation. Honors reduced-motion preferences and shows the supplied emblem if WebGL is unavailable. Both contact links open `hello@zaiveriq.com` in the visitor's email app.
+Uses 100dvh with a 100vh fallback, responsive portrait and landscape layouts, safe-area padding, a lightweight AI-generated WebP hero, perspective parallax, floating animation, sparse particles, and a click/keyboard light pulse. Motion can be paused and honors the system reduced-motion preference. Contact links use hello@zaiveriq.com. No backend or external asset CDN is required.
+
+The artwork is an AI-generated raster with CSS perspective depth, not a freely rotatable 3D model. The supplied logo is retained separately and unmodified.
