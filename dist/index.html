@@ -1,6 +1,66 @@
 <!doctype html>
-<html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><meta name="theme-color" content="#080B09"><meta name="description" content="Something extraordinary is coming. A new dimension of Zaiveriq Labs. Get in touch: hello@zaiveriq.com."><title>Zaiveriq Labs — Coming Soon</title><link rel="icon" href="assets/symbol.png"><link rel="preload" href="assets/clash.woff2" as="font" type="font/woff2" crossorigin><link rel="preload" href="assets/mystery-monolith.webp" as="image" fetchpriority="high"><link rel="stylesheet" href="style.css"></head>
-<body><div class="page"><header><a class="brand" href="./" aria-label="Zaiveriq Labs home"><img src="assets/wordmark.png" alt="Zaiveriq Labs" width="305" height="172"></a><span class="launch-status"><i></i> COMING SOON</span></header>
-<main><div class="copy"><div class="eyebrow"><span></span> THE NEXT CHAPTER</div><h1>Something<br>extraordinary<br><em>is coming.</em></h1><p>A new dimension of Zaiveriq Labs.</p><a class="contact" href="mailto:hello@zaiveriq.com"><span>Let’s talk</span><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 19 19 5M5 5h14v14"/></svg></a></div>
-<div class="art-area"><button class="art" id="art" aria-label="Awaken the sculpture with a light pulse" type="button"><span class="aura"></span><span class="art-float"><span class="art-depth"><img src="assets/mystery-monolith.webp" alt="An obsidian sculpture suspended in a silver halo, illuminated from within by green light" width="1254" height="1254" fetchpriority="high"><span class="light-sweep"></span></span></span><span class="pulse-ring"></span><canvas id="dust" aria-hidden="true"></canvas></button><span class="art-caption" aria-hidden="true"><span class="tiny-star">✧</span> A GLIMPSE OF WHAT’S NEXT <span class="art-hint">· &nbsp; TAP TO AWAKEN</span></span></div></main>
-<footer><a href="mailto:hello@zaiveriq.com">hello@zaiveriq.com <span>↗</span></a><span class="copyright">© <span id="year">2026</span> Zaiveriq Labs</span><button id="motion" type="button" aria-pressed="true" aria-label="Pause animations"><svg viewBox="0 0 20 20" aria-hidden="true"><path d="M7 5v10M13 5v10"/></svg><span>Motion on</span></button></footer><span id="announcement" class="sr-only" aria-live="polite"></span></div><script src="app.js" defer></script></body></html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+  <meta name="theme-color" content="#080b09">
+  <meta name="description" content="Zaiveriq Labs — coming soon.">
+  <title>Coming Soon — Zaiveriq Labs</title>
+  <link rel="icon" href="assets/symbol.png">
+  <link rel="preload" href="assets/clash.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="preload" href="assets/veiled-eclipse-v2.webp" as="image" fetchpriority="high">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <main class="page">
+    <header class="header">
+      <a class="brand" href="./" aria-label="Zaiveriq Labs home">
+        <img src="assets/wordmark.png" alt="Zaiveriq Labs" width="305" height="172">
+      </a>
+      <a class="contact" href="mailto:hello@zaiveriq.com">hello@zaiveriq.com <span>↗</span></a>
+    </header>
+
+    <section class="stage" id="stage" aria-labelledby="launch-message">
+      <div class="noise" aria-hidden="true"></div>
+
+      <h1 class="message message-base" id="launch-message">
+        <span class="line line-coming" aria-label="Coming">
+          <span style="--i:0">C</span><span style="--i:1">O</span><span style="--i:2">M</span><span style="--i:3">I</span><span style="--i:4">N</span><span style="--i:5">G</span>
+        </span>
+        <span class="line line-soon" aria-label="Soon">
+          <span style="--i:6">S</span><span style="--i:7">O</span><span style="--i:8">O</span><span style="--i:9">N</span>
+        </span>
+      </h1>
+
+      <button class="artifact" id="artifact" type="button" aria-label="Reveal what is coming">
+        <span class="orbit orbit-one" aria-hidden="true"></span>
+        <span class="orbit orbit-two" aria-hidden="true"></span>
+        <span class="artifact-float">
+          <span class="artifact-tilt">
+            <img class="artifact-dim" src="assets/veiled-eclipse-v2.webp" alt="A silk-wrapped obsidian eclipse opening to reveal green light" width="1400" height="1400" fetchpriority="high">
+            <img class="artifact-reveal" src="assets/veiled-eclipse-v2.webp" alt="" width="1400" height="1400" aria-hidden="true">
+            <span class="glint" aria-hidden="true"></span>
+          </span>
+        </span>
+        <span class="cursor-ring" aria-hidden="true"></span>
+      </button>
+
+      <div class="message message-reveal" aria-hidden="true">
+        <span class="line line-coming"><span>COMING</span></span>
+        <span class="line line-soon"><span>SOON</span></span>
+      </div>
+
+      <div class="coordinates" aria-hidden="true"><span>34.0522° N</span><i></i><span>118.2437° W</span></div>
+    </section>
+
+    <footer class="footer">
+      <span>© <span id="year">2026</span> ZAIVERIQ LABS</span>
+      <button class="motion" id="motion" type="button" aria-pressed="true" aria-label="Pause motion">
+        <span class="motion-mark">Ⅱ</span><span>Motion on</span>
+      </button>
+    </footer>
+    <span class="sr-only" id="announcement" aria-live="polite"></span>
+  </main>
+  <script src="app.js" defer></script>
+</body>
+</html>

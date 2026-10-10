@@ -1,13 +1,82 @@
-const art=document.querySelector('#art'),depth=document.querySelector('.art-depth'),motion=document.querySelector('#motion'),canvas=document.querySelector('#dust'),announcement=document.querySelector('#announcement');
-const reduce=matchMedia('(prefers-reduced-motion: reduce)');let enabled=!reduce.matches,targetX=0,targetY=0,x=0,y=0,last=performance.now(),time=0,frame=0,pulseTimer;
+const stage=document.querySelector('#stage');
+const artifact=document.querySelector('#artifact');
+const tilt=document.querySelector('.artifact-tilt');
+const motion=document.querySelector('#motion');
+const announcement=document.querySelector('#announcement');
+const reduce=matchMedia('(prefers-reduced-motion: reduce)');
+let enabled=!reduce.matches;
+let tx=0,ty=0,cx=0,cy=0,frame=0,last=performance.now(),pulseTimer;
+
 document.querySelector('#year').textContent=new Date().getFullYear();
-function syncMotion(){document.body.classList.toggle('paused',!enabled);motion.setAttribute('aria-pressed',String(enabled));motion.setAttribute('aria-label',enabled?'Pause animations':'Play animations');motion.querySelector('span').textContent=enabled?'Motion on':'Motion off';motion.querySelector('path').setAttribute('d',enabled?'M7 5v10M13 5v10':'M7 4l8 6-8 6Z');if(!enabled){art.classList.remove('awaken');clearTimeout(pulseTimer);cancelAnimationFrame(frame);frame=0;targetX=targetY=x=y=0;depth.style.cssText='';}else start();}
-motion.addEventListener('click',()=>{enabled=!enabled;syncMotion()});reduce.addEventListener('change',e=>{enabled=!e.matches;syncMotion()});
-art.addEventListener('pointermove',e=>{if(!enabled||e.pointerType==='touch')return;const r=art.getBoundingClientRect();targetX=((e.clientX-r.left)/r.width-.5)*2;targetY=((e.clientY-r.top)/r.height-.5)*2});art.addEventListener('pointerleave',()=>{targetX=targetY=0});
-art.addEventListener('click',()=>{if(!enabled){announcement.textContent='Animations are paused. Use Play animations to awaken the sculpture.';return}art.classList.remove('awaken');void art.offsetWidth;art.classList.add('awaken');announcement.textContent='The next chapter is awakening.';clearTimeout(pulseTimer);pulseTimer=setTimeout(()=>art.classList.remove('awaken'),1900)});
-const ctx=canvas.getContext('2d');let width=1,height=1;const particles=Array.from({length:24},(_,i)=>({x:((i*37+17)%101)/101,y:((i*61+7)%103)/103,r:i%5===0?1.2:.6,s:.3+(i%7)*.1}));
-function resize(){const r=art.getBoundingClientRect();width=r.width;height=r.height;const dpr=Math.min(devicePixelRatio,1.5);canvas.width=Math.round(width*dpr);canvas.height=Math.round(height*dpr);if(ctx){ctx.setTransform(dpr,0,0,dpr,0,0);paint()}}
-function paint(){if(!ctx)return;ctx.clearRect(0,0,width,height);for(const p of particles){const px=p.x*width+Math.sin(time*.18+p.y*8)*5,py=((p.y-time*.003*p.s+1)%1)*height;ctx.beginPath();ctx.arc(px,py,p.r,0,Math.PI*2);ctx.fillStyle=`rgba(172,215,127,${.14+(Math.sin(time*.5+p.x*12)+1)*.13})`;ctx.fill()}}
-function tick(now){frame=0;if(!enabled||document.hidden)return;const dt=Math.min((now-last)/1000,.04);last=now;time+=dt;const ease=1-Math.exp(-dt*4);x+=(targetX-x)*ease;y+=(targetY-y)*ease;depth.style.setProperty('--rx',`${-y*4}deg`);depth.style.setProperty('--ry',`${x*6}deg`);depth.style.setProperty('--tx',`${x*5}px`);depth.style.setProperty('--ty',`${y*4}px`);paint();frame=requestAnimationFrame(tick)}
-function start(){if(enabled&&!document.hidden&&!frame){last=performance.now();frame=requestAnimationFrame(tick)}}
-document.addEventListener('visibilitychange',()=>{if(document.hidden){cancelAnimationFrame(frame);frame=0;document.body.classList.add('paused')}else syncMotion()});new ResizeObserver(resize).observe(art);syncMotion();
+
+function setPoint(clientX,clientY){
+  const box=stage.getBoundingClientRect();
+  const localX=Math.max(0,Math.min(box.width,clientX-box.left));
+  const localY=Math.max(0,Math.min(box.height,clientY-box.top));
+  stage.style.setProperty('--mx',`${localX}px`);
+  stage.style.setProperty('--my',`${localY}px`);
+  const art=artifact.getBoundingClientRect();
+  artifact.style.setProperty('--ax',`${Math.max(0,Math.min(art.width,clientX-art.left))}px`);
+  artifact.style.setProperty('--ay',`${Math.max(0,Math.min(art.height,clientY-art.top))}px`);
+  tx=Math.max(-1,Math.min(1,(clientX-(art.left+art.width/2))/(art.width/2)));
+  ty=Math.max(-1,Math.min(1,(clientY-(art.top+art.height/2))/(art.height/2)));
+}
+
+stage.addEventListener('pointermove',event=>{
+  if(!enabled||event.pointerType==='touch')return;
+  setPoint(event.clientX,event.clientY);
+  stage.classList.add('engaged');
+  stage.style.setProperty('--reveal','12%');
+});
+stage.addEventListener('pointerleave',()=>{
+  tx=ty=0;
+  stage.classList.remove('engaged');
+  stage.style.setProperty('--mx','50%');
+  stage.style.setProperty('--my','50%');
+  stage.style.setProperty('--reveal','11%');
+  artifact.style.setProperty('--ax','50%');
+  artifact.style.setProperty('--ay','50%');
+});
+
+artifact.addEventListener('click',event=>{
+  const box=stage.getBoundingClientRect();
+  setPoint(event.clientX||box.left+box.width/2,event.clientY||box.top+box.height/2);
+  artifact.classList.remove('pulse');
+  void artifact.offsetWidth;
+  artifact.classList.add('pulse');
+  stage.classList.add('engaged');
+  stage.style.setProperty('--reveal','33%');
+  announcement.textContent='Coming soon — a little more has been revealed.';
+  clearTimeout(pulseTimer);
+  pulseTimer=setTimeout(()=>{
+    artifact.classList.remove('pulse');
+    stage.style.setProperty('--reveal','11%');
+    if(matchMedia('(hover:none)').matches)stage.classList.remove('engaged');
+  },1700);
+});
+
+function loop(now){
+  frame=0;
+  if(!enabled||document.hidden)return;
+  const dt=Math.min((now-last)/1000,.05);last=now;
+  const ease=1-Math.exp(-dt*5);
+  cx+=(tx-cx)*ease;cy+=(ty-cy)*ease;
+  tilt.style.setProperty('--rx',`${-cy*4}deg`);
+  tilt.style.setProperty('--ry',`${cx*5}deg`);
+  tilt.style.setProperty('--tx',`${cx*5}px`);
+  tilt.style.setProperty('--ty',`${cy*4}px`);
+  frame=requestAnimationFrame(loop);
+}
+function start(){if(enabled&&!frame&&!document.hidden){last=performance.now();frame=requestAnimationFrame(loop)}}
+function syncMotion(){
+  document.body.classList.toggle('paused',!enabled);
+  motion.setAttribute('aria-pressed',String(enabled));
+  motion.setAttribute('aria-label',enabled?'Pause motion':'Play motion');
+  motion.querySelector('.motion-mark').textContent=enabled?'Ⅱ':'▷';
+  motion.querySelector('span:last-child').textContent=enabled?'Motion on':'Motion off';
+  if(enabled)start();else{cancelAnimationFrame(frame);frame=0;tx=ty=cx=cy=0;tilt.style.cssText=''}
+}
+motion.addEventListener('click',()=>{enabled=!enabled;syncMotion()});
+reduce.addEventListener('change',event=>{enabled=!event.matches;syncMotion()});
+document.addEventListener('visibilitychange',()=>{if(document.hidden){cancelAnimationFrame(frame);frame=0}else start()});
+syncMotion();

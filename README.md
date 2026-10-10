@@ -1,7 +1,7 @@
 # Zaiveriq Labs — Coming Soon
 
-A static single-screen launch page with supplied Clash Grotesk and Satoshi fonts, brand colors, and logo. Serve dist/ with any HTTP server.
+A static single-screen launch page with supplied Clash Grotesk and Satoshi fonts, brand colors, and logo. Serve `dist/` with any HTTP server.
 
-Uses 100dvh with a 100vh fallback, responsive portrait and landscape layouts, safe-area padding, a lightweight AI-generated WebP hero, perspective parallax, floating animation, sparse particles, and a click/keyboard light pulse. Motion can be paused and honors the system reduced-motion preference. Contact links use hello@zaiveriq.com. No backend or external asset CDN is required.
+The experience conveys one message: **COMING SOON**. An AI-generated veiled eclipse sits between the two words. Cursor movement selectively reveals the artwork and turns the nearby typography green; clicking or tapping expands the reveal. The page uses 100dvh with a 100vh fallback, responsive portrait and landscape layouts, safe-area padding, motion controls, and reduced-motion support. Contact links use hello@zaiveriq.com. No backend or external asset CDN is required.
 
-The artwork is an AI-generated raster with CSS perspective depth, not a freely rotatable 3D model. The supplied logo is retained separately and unmodified.
+The artwork is an AI-generated raster with CSS perspective depth. The supplied logo is retained separately and unmodified.
